@@ -1,5 +1,4 @@
 import { World, Commands } from "mojang-minecraft";
-let commandTestTemp
 World.events.tick.subscribe(() => {
   try {
     const dimension = World.getDimension('overworld');
@@ -14,6 +13,6 @@ World.events.tick.subscribe(() => {
     const playerCount = World.getPlayers().length;
     Commands.run(`title @a actionbar ${commandTest} - ${commandTestA} - ${playerCount}`, dimension);
   } catch (error) {
-      conesole.warn(error, error.stack)
+      console.warn(error, error.stack);
   }
 });
