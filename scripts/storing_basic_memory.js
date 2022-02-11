@@ -1,17 +1,21 @@
-import { World, Commands } from "mojang-minecraft";
+import { world} from "mojang-minecraft";
+const overworld = World.getDimension('overworld');
 World.events.tick.subscribe(() => {
   try {
-    const dimension = World.getDimension('overworld');
+    
     try {
-      Commands.run('scoreboard players set Dummy CommandTest 2', dimension);
+      overworld.runCommand('scoreboard players set Dummy CommandTest 2');
     } catch {
-      Commands.run('scoreboard objectives add CommandTest dummy', dimension);
-      Commands.run('scoreboard players set Dummy CommandTest 2', dimension);
+      overworld.runCommand'scoreboard objectives add CommandTest dummy');
+      overworld.runCommand'scoreboard players set Dummy CommandTest 2');
     }
-    const commandTest = parseInt(Commands.run('scoreboard players test Dummy CommandTest *', dimension).statusMessage.match(/-?\d+/));
-    const commandTestA = parseInt(Commands.run(`scoreboard players set Dummy CommandTest 3`, dimension).statusMessage.match(/-?\d+$/));
-    const playerCount = World.getPlayers().length;
-    Commands.run(`title @a actionbar ${commandTest} - ${commandTestA} - ${playerCount}`, dimension);
+    const commandTest = parseInt(overworld.runCommand('scoreboard players test Dummy CommandTest *').statusMessage.match(/-?\d+/));
+    const commandTestA = parseInt(overworld.runCommand('scoreboard players set Dummy CommandTest 3').statusMessage.match(/-?\d+$/));
+    const playerCount = [...world.getPlayers()].length;
+    const players = world.getPlayers();
+    for (let player of players) {
+      player.runCommand(`title @s actionbar ${commandTest} - ${commandTestA} - ${playerCount}`);
+    }
   } catch (error) {
       console.warn(error, error.stack);
   }
