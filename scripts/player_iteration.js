@@ -36,9 +36,9 @@ const teleports = [
     to: ['~5','~10','~5']
   }
 ];
-function QueryTopSolid({location:{x,y,z}}) {
+function QueryTopSolid({location:{x,y,z},dimension}) {
   
-  Array.from(Array(384),(v))
+  Array.from(Array(384),(value,i) => { if (!dimension.getBlock(new BlockLocation(x,i-64,z)).isEmpty) { return true} } )
 }
 world.events.tick.subscribe(() => {
   try {
