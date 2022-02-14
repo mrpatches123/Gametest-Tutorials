@@ -30,7 +30,16 @@ const teleports = [
     from: [3, '#', 3],
     to: ['~5','~10','~5']
   }
+  {
+    name:'shop',
+    from: [[3, 64, 3],[10,69,3]],
+    to: ['~5','~10','~5']
+  }
 ];
+function QueryTopSolid({location:{x,y,z}}) {
+  
+  Array.from(Array(384),(v))
+}
 world.events.tick.subscribe(() => {
   try {
     joiningPlayers.forEach(player => {
@@ -51,7 +60,17 @@ world.events.tick.subscribe(() => {
       const {x,y,z} = location
       const {x: xv,y: yv,z: zv} = velocity
       player.runCommand(`title @s ${name}, ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`)
-      teleports.forEach({name,to,form})
+      teleports.forEach(({name,to,from}) => {
+        if(typeof from[0] === array) {
+          from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))  
+          from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))
+          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#') ? )
+          if ( (x >= (x >= from[0][0] &&  x <= from[1][0]) && (y >= from[0][1] &&  y <= from[1][1]) && (z >= from[0][1] &&  z <= from[1][1]) ) {
+            player.teleport(new location())    
+          }
+        }
+          
+      })
       
     }
   } catch (error) {
