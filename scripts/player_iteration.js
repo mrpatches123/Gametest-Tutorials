@@ -34,6 +34,8 @@ const teleports = [
     name:'shop',
     from: [[3, 64, 3],[10,69,3]],
     to: ['~5','~10','~5']
+    dimension:
+    rotation: [0,90]
   }
 ];
 function QueryTopSolid({location:{x,y,z},dimension}) {
@@ -66,7 +68,7 @@ world.events.tick.subscribe(() => {
           from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))
           to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? :Number(coord) )
           if ( (x >= (x >= from[0][0] &&  x <= from[1][0]) && (y >= from[0][1] &&  y <= from[1][1]) && (z >= from[0][1] &&  z <= from[1][1]) ) {
-            player.teleport(new location())    
+            player.teleport(new Location(...to),)    
           }
         }
           
