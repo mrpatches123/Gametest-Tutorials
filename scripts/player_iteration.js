@@ -38,7 +38,7 @@ const teleports = [
 ];
 function QueryTopSolid({location:{x,y,z},dimension}) {
   
-  Array.from(Array(384),(value,i) => { if (!dimension.getBlock(new BlockLocation(x,i-64,z)).isEmpty) { return true} } )
+  const BlockLocations = BlockLocation(floor(x),320,floor(z)).BlocksBetween(new BlockLocation(floor(x),-64,floor(z))).forEach(location => if (dimension))
 }
 world.events.tick.subscribe(() => {
   try {
@@ -64,7 +64,7 @@ world.events.tick.subscribe(() => {
         if(typeof from[0] === array) {
           from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))  
           from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))
-          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#') ? )
+          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? :Number(coord) )
           if ( (x >= (x >= from[0][0] &&  x <= from[1][0]) && (y >= from[0][1] &&  y <= from[1][1]) && (z >= from[0][1] &&  z <= from[1][1]) ) {
             player.teleport(new location())    
           }
