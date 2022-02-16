@@ -1,13 +1,13 @@
 import { world } from "mojang-minecraft";
 
 const overworld = World.getDimension('overworld');
-const {floor, hypot} = Math
+const {floor, hypot} = Math;
 
 let loaded = false;
 let joiningPlayers = [];
 world.events.playerJoin.subscribe(({player}) => {
   joiningPlayers.unshift(player);
-})
+});
 
 function initaliseServer() {
   
@@ -38,10 +38,12 @@ const teleports = [
     rotation: [0,90]
   }
 ];
+
+
 function QueryTopSolid({location:{x,y,z},dimension}) {
   
-  const BlockLocations = BlockLocation(floor(x),320,floor(z)).BlocksBetween(new BlockLocation(floor(x),-64,floor(z)))
-    .forEach(location => if (!dimension.getBlock(location).isEmpty) { return location}))
+  return new BlockLocation(floor(x),320,floor(z)).BlocksBetween(new BlockLocation(floor(x),-64,floor(z)))
+    .forEach(location => { if (!dimension.getBlock(location).isEmpty) { return location.y; } });
 }
 world.events.tick.subscribe(() => {
   try {
@@ -50,9 +52,9 @@ world.events.tick.subscribe(() => {
         player.runCommand('testfor @s');
         joiningPlayers = joiningPlayers.filter(joiningPlayer => player.nameTag !== joiningPlayer.nameTag);
         intailisePlayer(player);
-        if (!loaded) { 
-          initaliseServer() 
-          loaded = true
+        if (!loaded) {
+          initaliseServer();
+          loaded = true;
         }
         
       } catch { }
@@ -60,26 +62,26 @@ world.events.tick.subscribe(() => {
     let players = world.getPlayers().filter(player => !joiningPlayers.some(join => join.nameTag === player.nameTag));
     for (let player of players) {
       const {name, location, velocity} = player;
-      const {x,y,z} = location
-      const {x: xv,y: yv,z: zv} = velocity
-      player.runCommand(`title @s ${name}, ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`)
+      const {x,y,z} = location;
+      const {x: xv,y: yv,z: zv} = velocity;
+      player.runCommand(`title @s ${name}, ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`);
       teleports.forEach(({name,to,from,dimension = overworld ,rotation}) => {
-        if(typeof from[0] === array) {
-          from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))  
-          from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))
-          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? :Number(coord) )
-          if ( (x >= (x >= from[0][0] &&  x <= from[1][0]) && (y >= from[0][1] &&  y <= from[1][1]) && (z >= from[0][1] &&  z <= from[1][1]) ) {
-            player.teleport(new Location(...to),dimension,rotation);    
+        if (typeof from[0] === array) {
+          from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
+          from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
+          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~')) ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? queryTopSolid(location, player) : Number(coord));
+          if ((x >= from[0][0] &&  x <= from[1][0]) && (y >= from[0][1] &&  y <= from[1][1]) && (z >= from[0][1] &&  z <= from[1][1]) ) {
+            player.teleport(new Location(...to),dimension,rotation);
           }
         } else {
-          from.forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord))  
-          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~'))? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? :Number(coord) )
+          from.forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
+          to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~')) ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? queryTopSolid(location, player) : Number(coord));
           if (x === from[0] && y === from[1] && z === from[2]) {
-            player.teleport(new Location(...to),dimension,rotation); 
+            player.teleport(new Location(...to),dimension,rotation);
           }
         }
           
-      })
+      });
       
     }
   } catch (error) {
