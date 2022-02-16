@@ -1,6 +1,6 @@
 import { world } from "mojang-minecraft";
 
-const overworld = World.getDimension('overworld');
+const overworld = world.getDimension('overworld');
 const {floor, hypot} = Math;
 
 let loaded = false;
