@@ -59,7 +59,7 @@ world.events.tick.subscribe(() => {
         
       } catch { }
     });
-    let players = world.getPlayers().filter(player => !joiningPlayers.some(join => join.nameTag === player.nameTag));
+    let players = [...world.getPlayers()].filter(player => !joiningPlayers.some(join => join.nameTag === player.nameTag));
     for (let player of players) {
       const {name, location, velocity} = player;
       const {x,y,z} = location;
