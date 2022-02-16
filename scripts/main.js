@@ -1,1 +1,1 @@
-import "player_iteration.js"
+import "./player_iteration.js"
