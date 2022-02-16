@@ -40,8 +40,7 @@ const teleports = [
 ];
 
 
-function QueryTopSolid({location:{x,y,z},dimension}) {
-  
+function queryTopSolid({location:{x,y,z},dimension}) {
   return new BlockLocation(floor(x),320,floor(z)).BlocksBetween(new BlockLocation(floor(x),-64,floor(z)))
     .forEach(location => { if (!dimension.getBlock(location).isEmpty) { return location.y; } });
 }
