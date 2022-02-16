@@ -66,7 +66,7 @@ world.events.tick.subscribe(() => {
       const {x: xv,y: yv,z: zv} = velocity;
       player.runCommand(`title @s actionbar ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`);
       teleports.forEach(({name,to,from,dimension = overworld ,rotation}) => {
-        if (typeof from[0] === array) {
+        if (typeof from[0] === 'array') {
           from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
           from[1].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
           to.forEach((coord,i) => to[i] = (coord.includes('*') &&  coord.includes('~')) ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,''))  : (coord === '#' && i === 1) ? queryTopSolid(location, player) : Number(coord));
