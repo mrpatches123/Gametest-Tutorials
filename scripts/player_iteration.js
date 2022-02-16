@@ -64,7 +64,7 @@ world.events.tick.subscribe(() => {
       const {name, location, velocity} = player;
       const {x,y,z} = location;
       const {x: xv,y: yv,z: zv} = velocity;
-      player.runCommand(`title @s ${name}, ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`);
+      player.runCommand(`title @s actionbar ${floor(location.x)}, ${floor(y)}, ${floor(z)}, ${floor(x)}, ${hypot(xv,yv,zv)}`);
       teleports.forEach(({name,to,from,dimension = overworld ,rotation}) => {
         if (typeof from[0] === array) {
           from[0].forEach((coord,i) => from[0][i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
