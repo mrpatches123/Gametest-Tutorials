@@ -74,7 +74,13 @@ world.events.tick.subscribe(() => {
           }
         } else {
           from.forEach((coord,i) => from[i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
-          to.forEach((coord,i) => {to[i] = (coord.includes('*') && coord.includes('~')) ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) : (coord.includes('~')) ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,'')) : (coord === '#' && i === 1) ? queryTopSolid(location, player) : Number(coord)});
+          to.forEach((coord,i) => {to[i] = (coord.includes('*') && coord.includes('~')) 
+            ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) 
+            : (coord.includes('~')) 
+              ? [x,y,z][i] + Number(coord.replace(/[\*~]/g,'')) 
+              : (coord === '#' && i === 1) 
+                ? queryTopSolid(location, player) 
+                : Number(coord)});
           if (x === from[0] && y === from[1] && z === from[2]) {
             player.teleport(new Location(...to),dimension,rotation);
           }
