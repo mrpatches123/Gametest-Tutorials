@@ -74,6 +74,7 @@ world.events.tick.subscribe(() => {
           }
         } else {
           from.forEach((coord,i) => from[i] = (coord === '#') ? floor([x,y,z][i]) : floor(coord));
+          const.wanr(typeof to);
           to.forEach((coord,i) => {to[i] = (coord.includes('*') && coord.includes('~')) 
             ? floor([x,y,z][i] + Number(coord.replace(/[\*~]/g,''))) 
             : (coord.includes('~')) 
